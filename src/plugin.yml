@@ -1,0 +1,6 @@
+name: VultureMine
+version: 1.0
+main: rotang.VultureMine.VultureMine
+
+commands:
+  vm:
