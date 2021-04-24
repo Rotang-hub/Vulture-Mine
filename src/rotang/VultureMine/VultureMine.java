@@ -63,7 +63,7 @@ public class VultureMine extends JavaPlugin
 				float power = Float.parseFloat(args[1]);
 				
 				getServer().broadcastMessage(ChatColor.GREEN + "[VM] À§·Â : " + ChatColor.YELLOW + manager.getPower() + " -> " + power);
-				manager.setSpeed(power);
+				manager.setPower(power);
 			}
 			
 			if(args[0].equalsIgnoreCase("info"))

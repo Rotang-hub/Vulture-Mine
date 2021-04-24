@@ -34,7 +34,7 @@ public class Events implements Listener
 			{
 				if(action.equals(Action.RIGHT_CLICK_BLOCK))
 				{
-					Mine mine = new Mine();
+					Mine mine = new Mine(manager);
 					mine.setUpMine(player, event.getClickedBlock().getLocation().add(0.5, -1.2, 0.5));
 				}
 			}

@@ -16,19 +16,18 @@ import rotang.VultureMine.VultureMine;
 
 public class Mine 
 {
-	private Plugin plugin = VultureMine.getPlugin(VultureMine.class);
+	private Manager manager;
 	
-	private Manager manager = new Manager();
+	private Plugin plugin = VultureMine.getPlugin(VultureMine.class);
 	
 	private Player miner;
 	
 	private Location loc;
 	
-	private double range = manager.getRange();
-	
-	private double speed = manager.getSpeed();
-	
-	private float power = manager.getPower();
+	public Mine(Manager manager) 
+	{
+		this.manager = manager;
+	}
 	
 	public Player getMiner() 
 	{
@@ -63,7 +62,7 @@ public class Mine
 		mine.setGravity(false);
 		mine.getEquipment().setHelmet(new ItemStack(Material.TNT));
 		
-		miner.sendMessage(ChatColor.GREEN + "[VM] 지뢰를 심었습니다." + ChatColor.YELLOW + "[" + loc.getX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + "]");
+		miner.sendMessage(ChatColor.GREEN + "[VM] 지뢰를 심었습니다." + ChatColor.YELLOW + "[" + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + "]");
 		
 		new BukkitRunnable() 
 		{
@@ -79,7 +78,7 @@ public class Mine
 					
 					dist = loc.distance(p.getLocation());
 					
-					if(dist <= range)
+					if(dist <= manager.getRange())
 					{
 						traceTarget(mine, p);
 						cancel();
@@ -110,18 +109,18 @@ public class Mine
 				
 				else if(tick > 20)
 				{
-					Vector dir = mineLoc.toVector().subtract(target.getLocation().toVector()).normalize();
-					Location targetPos = mineLoc.add(dir.multiply(speed / 10));
+					Vector dir = target.getLocation().toVector().subtract(mineLoc.toVector()).normalize();
+					Location targetPos = mineLoc.add(dir.multiply(manager.getSpeed()));
 					//Vector vec = mineLoc.toVector().subtract(targetPos.toVector());
 					
 					//mine.setVelocity(vec);
 					mine.getLocation().setDirection(dir);
 					mine.teleport(targetPos);
-					mineLoc.getWorld().spawnParticle(Particle.FLAME, 0, 0, 0, 1);
+					mineLoc.getWorld().spawnParticle(Particle.FLAME, mineLoc.getX(), mineLoc.getY() + 1.75, mineLoc.getZ(), 3, 0, 0, 0, 0);
 					
 					if(mineLoc.distance(target.getLocation()) <= 0.5)
 					{
-						mineLoc.getWorld().createExplosion(mineLoc, power);
+						mineLoc.getWorld().createExplosion(mineLoc, manager.getPower());
 						mine.remove();
 						cancel();
 					}

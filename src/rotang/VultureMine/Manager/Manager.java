@@ -10,7 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Manager 
 {
-	private double range = 3;
+	private double range = 5;
 	
 	private double speed = 1;
 	
